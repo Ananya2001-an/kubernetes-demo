@@ -1,0 +1,44 @@
+version: '3.1'
+services:
+  note:
+    image: ghcr.io/ananya2001-an/note:latest
+    ports:
+      - "3000:80" # Expose React app on port 3000
+    depends_on:
+      - note-server # Ensure backend is ready before starting the frontend
+    environment:
+      - REACT_APP_SERVER_URL=http://note-server:5000 # Set the backend URL
+
+  note-server:
+    image: ghcr.io/ananya2001-an/note-server:latest
+    ports:
+      - "5000:8080" # Expose backend on port 5000
+    depends_on:
+      - mongodb # Ensure MongoDB is ready before starting the backend
+    environment:
+      - NODE_ENV=production # Set the environment to production
+      - DATABASE_URL=mongodb://database:27017/mydb # Set the MongoDB connection URL
+
+  mongodb:
+    image: mongo:latest # Use the official MongoDB image
+    ports:
+      - "27017:27017" # Expose MongoDB on port 27017
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb-data:/data/db # Persist MongoDB data
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://root:password@mongo:27017/
+
+volumes:
+  mongodb-data: # Create a named volume for MongoDB data
