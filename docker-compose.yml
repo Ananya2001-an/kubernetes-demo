@@ -16,7 +16,10 @@ services:
     depends_on:
       - mongodb # Ensure MongoDB is ready before starting the backend
     environment:
-      MONGODB_URI: mongodb://root:password@mongodb:27017/mydb # Set the MongoDB URL
+      MONGODB_URI: mongodb://mongodb:27017
+      DB_NAME: mydb
+      DB_USER: root
+      DB_PASS: password
 
   mongodb:
     image: mongo:latest # Use the official MongoDB image

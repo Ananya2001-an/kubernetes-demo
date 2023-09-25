@@ -1,11 +1,12 @@
-GET http://localhost:5000
+# GET http://localhost:5000
 
-GET http://localhost:5000/notes
+# GET http://localhost:5000/notes
 
 POST http://localhost:5000/notes
 Content-Type: application/json
 
 {
     "name": "Note 1",
-    "note": "This is the first note"
+    "note": "This is the first note",
+    "cover": ""
 }
