@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.9'
 services:
   note:
     image: ghcr.io/ananya2001-an/note:latest
@@ -7,7 +7,7 @@ services:
     depends_on:
       - note-server # Ensure backend is ready before starting the frontend
     environment:
-      - REACT_APP_SERVER_URL=http://note-server:5000 # Set the backend URL
+      REACT_APP_SERVER_URL: http://note-server:5000 # Set the backend URL
 
   note-server:
     image: ghcr.io/ananya2001-an/note-server:latest
@@ -16,8 +16,7 @@ services:
     depends_on:
       - mongodb # Ensure MongoDB is ready before starting the backend
     environment:
-      - NODE_ENV=production # Set the environment to production
-      - DATABASE_URL=mongodb://mongodb:27017/mydb # Set the MongoDB connection URL
+      MONGODB_URI: mongodb://root:password@mongodb:27017/mydb # Set the MongoDB URL
 
   mongodb:
     image: mongo:latest # Use the official MongoDB image
@@ -43,5 +42,5 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongodb
 
 volumes:
-  mongodb-data: # Create a named volume for MongoDB data
+  mongodb-data:
     driver: local
