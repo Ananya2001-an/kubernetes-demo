@@ -6,8 +6,6 @@ services:
       - "3000:80" # Expose React app on port 3000
     depends_on:
       - note-server # Ensure backend is ready before starting the frontend
-    environment:
-      REACT_APP_SERVER_URL: http://note-server:5000 # Set the backend URL
 
   note-server:
     image: ghcr.io/ananya2001-an/note-server:latest
