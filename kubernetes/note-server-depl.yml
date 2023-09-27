@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: note-server-deployment
+  labels:
+    app: note-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: note-server
+  template:
+    metadata:
+      labels:
+        app: note-server
+    spec:
+      containers:
+      - name: note-server
+        image: ghcr.io/ananya2001-an/note-server:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGODB_URI
+          value: mongodb://mongodb-service:27017
+        - name: DB_NAME
+          value: mydb
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: username
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: password
