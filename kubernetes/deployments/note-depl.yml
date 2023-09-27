@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: note-deployment
+  labels:
+    app: note
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: note
+  template:
+    metadata:
+      labels:
+        app: note
+    spec:
+      containers:
+      - name: note
+        image: ghcr.io/ananya2001-an/note:latest
+        ports:
+        - containerPort: 80
